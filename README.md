@@ -1,4 +1,11 @@
-# ngx-electron
+
+
+# ad-ngx-electron
+
+ad-ngx-electron is a fork of ngx-electron made for maintenance purpose (the lib had issues with angular 16+ versions).
+This library has been pushed to the npm registry as ad-ngx-electron, so please adapt your code to import 'ad-ngx-electron' instead of 'ngx-electron'.
+
+The original Readme : 
 
 [![Build Status](https://travis-ci.org/ThorstenHans/ngx-electron.svg?branch=master)](https://travis-ci.org/ThorstenHans/ngx-electron)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg?style=flat-square)](https://github.com/semantic-release/semantic-release)

@@ -4,9 +4,9 @@ import { ElectronWindow } from './typings/electron.window';
 declare let window: ElectronWindow;
 
 export class ElectronService {
-    private _electron: Electron.RendererInterface;
+    private _electron: any | null = null;
 
-    private get electron(): Electron.RendererInterface {
+    private get electron(): any | null  {
         if (!this._electron) {
             if (window && window.require) {
                 this._electron = window.require('electron');
@@ -48,27 +48,28 @@ export class ElectronService {
         return this.isElectronApp && process.arch === 'arm';
     }
 
-    public get desktopCapturer(): Electron.DesktopCapturer {
+    public get desktopCapturer(): Electron.DesktopCapturer | null  {
         return this.electron ? this.electron.desktopCapturer : null;
     }
 
-    public get ipcRenderer(): Electron.IpcRenderer {
+    public get ipcRenderer(): Electron.IpcRenderer | null  {
         return this.electron ? this.electron.ipcRenderer : null;
     }
 
-    public get remote(): Electron.Remote {
+    //  TODO FIX : Electron.Remote is readonly so return any instead
+    public get remote(): any | null  {
         return this.electron ? this.electron.remote : null;
     }
 
-    public get webFrame(): Electron.WebFrame {
+    public get webFrame(): Electron.WebFrame | null  {
         return this.electron ? this.electron.webFrame : null;
     }
 
-    public get clipboard(): Electron.Clipboard {
+    public get clipboard(): Electron.Clipboard | null  {
         return this.electron ? this.electron.clipboard : null;
     }
 
-    public get crashReporter(): Electron.CrashReporter {
+    public get crashReporter(): Electron.CrashReporter | null  {
         return this.electron ? this.electron.crashReporter : null;
     }
 
@@ -76,15 +77,15 @@ export class ElectronService {
         return this.remote ? this.remote.process : null;
     }
 
-    public get nativeImage(): typeof Electron.nativeImage {
+    public get nativeImage(): typeof Electron.nativeImage | null  {
         return this.electron ? this.electron.nativeImage : null;
     }
 
-    public get screen(): Electron.Screen {
-        return this.electron ? this.remote.screen : null;
+    public get screen(): Electron.Screen | null {
+        return this.electron ? (this.remote?.screen ?? null) : null;
     }
 
-    public get shell(): Electron.Shell {
+    public get shell(): Electron.Shell | null  {
         return this.electron ? this.electron.shell : null;
     }
 }
