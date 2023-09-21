@@ -1,5 +1,3 @@
-
-
 # ad-ngx-electron
 
 ad-ngx-electron is a fork of ngx-electron made for maintenance purpose (the lib had issues with angular 16+ versions).

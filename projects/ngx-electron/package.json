@@ -1,6 +1,6 @@
 {
   "name": "ad-ngx-electron",
-  "version": "3.0.0-beta.1",
+  "version": "3.0.0-beta.3",
   "description": "An Angular wrapper for Electron's Renderer APIs",
   "author": "Thorsten Hans",
   "keywords": [

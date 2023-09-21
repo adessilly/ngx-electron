@@ -1,24 +1,101 @@
-# NgxElectron
+# ad-ngx-electron
 
-This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.0.
+ad-ngx-electron is a fork of ngx-electron made for maintenance purpose (the lib had issues with angular 16+ versions).
+This library has been pushed to the npm registry as ad-ngx-electron, so please adapt your code to import 'ad-ngx-electron' instead of 'ngx-electron'.
 
-## Code scaffolding
+The original Readme : 
 
-Run `ng generate component component-name --project ngx-electron` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module --project ngx-electron`.
-> Note: Don't forget to add `--project ngx-electron` or else it will be added to the default project in your `angular.json` file. 
+[![Build Status](https://travis-ci.org/ThorstenHans/ngx-electron.svg?branch=master)](https://travis-ci.org/ThorstenHans/ngx-electron)
+[![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg?style=flat-square)](https://github.com/semantic-release/semantic-release)
 
-## Build
+`ngx-electron` is a small Module for [Angular](http://angular.io) which makes calling [Electron](https://electronjs.org) APIs from the `Renderer Process` easier. By adding it to your Angular project, you'll get IntelliSense and a simple Angular service which acts as facade for Electron APIs.
 
-Run `ng build ngx-electron` to build the project. The build artifacts will be stored in the `dist/` directory.
+`ngx-electron` is licensed under [MIT](https://opensource.org/licenses/MIT).
 
-## Publishing
+## Introduction
 
-After building your library with `ng build ngx-electron`, go to the dist folder `cd dist/ngx-electron` and run `npm publish`.
+Checkout the introduction post on my [blog](https://thorsten-hans.com/integrating-angular-and-electron-using-ngx-electron) for more details.
 
-## Running unit tests
+## Support me
 
-Run `ng test ngx-electron` to execute the unit tests via [Karma](https://karma-runner.github.io).
+[![Become a Patron!](https://c5.patreon.com/external/logo/become_a_patron_button.png)](https://www.patreon.com/bePatron?u=16380186)
 
-## Further help
+## Installation
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+`ngx-electron` can be installed easily using either `yarn` or `npm` commands in the scope of an angular project.
+
+```bash
+yarn add ngx-electron --save
+# or
+npm install ngx-electron --save
+```
+
+The `NgxElectronModule` needs to be import in your `root` Angular module (eg `AppModule`).
+
+``` typescript
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { AppComponent } from './app.component';
+
+import { NgxElectronModule } from 'ngx-electron';
+
+
+@NgModule({
+    declarations: [],
+    imports: [
+      BrowserModule,
+      NgxElectronModule
+    ],
+    bootstrap: [AppComponent]
+})
+export class AppModule {
+
+}
+```
+
+Once the module has been imported, you can easily use dependency injection to get an instance of `ElectronService`.
+
+``` typescript
+import { Component } from '@angular/core';
+import { ElectronService } from 'ngx-electron';
+
+@Component({
+  selector: 'my-app',
+  templateUrl: 'app.html'
+})
+export class AppComponent {
+
+    constructor(private _electronService: ElectronService) { }
+
+    public playPingPong() {
+        if(this._electronService.isElectronApp) {
+            let pong: string = this._electronService.ipcRenderer.sendSync('ping');
+            console.log(pong);
+        }
+    }
+}
+```
+
+## ElectronService
+
+The `ElectronService` is exposing all API's accessible from within Electron's renderer process. **If your app is not running inside electron, all getters will return NULL instead**.
+
+### Properties
+
+  * `desktopCapturer: Electron.DesktopCapturer` - Electron's desktop capturing API
+  * `ipcRenderer: Electron.IpcRenderer` - Electron IpcRenderer
+  * `remote: Electron.Remote` - Electron Remote capabilities
+  * `webFrame: Electron.WebFrame` - Electron WebFrame
+  * `clipboard: Electron.Clipboard` - Clipboard API
+  * `crashReporter: Electron.CrashReporter` - Electron's CrashReporter
+  * `process: NodeJS.Process` - Electron's Process Object
+  * `screen: Electron.Screen` - Electron's Screen API
+  * `shell: Electron.Shell` - Electron's Shell API
+  * `nativeImage: Electron.NativeImage` - Electron's NativeImage API
+  * `isElectronApp: boolean` - Indicates if app is being executed inside of electron or not
+  * `isMacOS: boolean` - Indicates if app is running in electron and on `macOS`
+  * `isWindows: boolean` - Indicates if app is running in electron and on `Windows`
+  * `isLinux: boolean` - Indicates if app is running in electron and on `Linux`
+  * `isX86: boolean` - Indicates if app is running in electron and on a `x86` architecture
+  * `isX64: boolean` - Indicates if app is running in electron and on a `x64` architecture
+  * `isArm: boolean` - Indiciates it app is running in electron adn on a `ARM` architecture
